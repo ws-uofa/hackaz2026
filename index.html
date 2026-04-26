@@ -355,7 +355,7 @@
 </div>
 
 <div id="predict" class="section">
-  <h1>Predict & Optimize Dispatch</h1>
+  <h1>AI Dispatch Report</h1>
   <div class="content" style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
     <input type="number" id="input-temp" placeholder="Temp (°C) e.g. 28.5" style="padding: 10px; border-radius: 10px; font-size: 16px;">
     <input type="number" id="input-ghi" placeholder="GHI e.g. 820" style="padding: 10px; border-radius: 10px; font-size: 16px;">
@@ -527,7 +527,6 @@ async function runAI() {
   const result = document.getElementById("ai-result");
   const btn = document.querySelector(".fancy-btn");
   
-  // 获取输入值，如果没有输入则使用默认值
   const temp = document.getElementById("input-temp").value || 28.5;
   const ghi = document.getElementById("input-ghi").value || 820;
   const co2 = document.getElementById("input-co2").value || 4500000;
@@ -536,7 +535,6 @@ async function runAI() {
   btn.disabled = true;
 
   try {
-    // 调用本地 Python 后端
     const response = await fetch("http://127.0.0.1:5005/api/dispatch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -551,10 +549,8 @@ async function runAI() {
         return;
     }
 
-    // 使用 marked.parse() 自动将 Markdown 转换为 HTML
     const htmlContent = marked.parse(data.report);
 
-    // 显示大模型生成的结果
     result.innerHTML = `<h2 style="text-align: center; margin-bottom: 20px; border-bottom: none;">🤖 AI Daily Energy Dispatch Report</h2>${htmlContent}`;
 
   } catch (error) {
