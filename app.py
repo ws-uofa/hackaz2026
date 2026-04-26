@@ -55,7 +55,7 @@ def prescriptive_optimizer(pred_demand, pred_solar_max, pred_wind_max, target_co
     p_wind = pulp.LpVariable("Wind_MW", 0, pred_wind_max)   
     p_hydro = pulp.LpVariable("Hydro_MW", 0, max_hydro)
     
-    prob += 50 * p_coal + 60 * p_gas + 5 * p_solar + 5 * p_wind + 5 * p_hydro
+    prob += 50 * p_coal + 50 * p_gas + 5 * p_solar + 5 * p_wind + 5 * p_hydro
     prob += (p_coal + p_gas + p_solar + p_wind + p_hydro) >= pred_demand
     prob += (p_coal * ef_coal + p_gas * ef_gas) <= target_co2
     
