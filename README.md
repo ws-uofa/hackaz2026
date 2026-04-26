@@ -26,6 +26,7 @@ Idea user will input a current CO2 input and power demand. model will return the
 
 
 -- Visual ------------------------------------------------------------------
+
 The project outputs bar charts that show the full breakdown of the final percentages. You can see exactly how the "Green Shift" looks compared to the current fossil fuel heavy mix.
 
 
