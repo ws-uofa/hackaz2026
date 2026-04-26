@@ -3,8 +3,8 @@
 <head>
   <title>AI Sustainability Website</title>
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
     html {
@@ -166,33 +166,122 @@
       transform: scale(1.1);
       box-shadow: 0 0 20px rgba(0, 114, 255, 0.8);
     }
+
+    /* --- AI Markdown 结果美化 (玻璃拟态) --- */
+    #ai-result {
+      display: none; /* 默认隐藏，有内容时再通过JS控制显示 */
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 30px 40px;
+      text-align: left;
+      max-width: 800px;
+      margin: 30px auto;
+      font-size: 16px;
+      line-height: 1.8;
+      color: #e0e0e0;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    /* 当内部有内容时显示卡片轮廓 */
+    #ai-result:not(:empty) {
+      display: block;
+    }
+
+    /* Markdown 标题美化 */
+    #ai-result h1, #ai-result h2, #ai-result h3, #ai-result h4 {
+      color: #00ffcc;
+      margin-top: 25px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 5px;
+    }
+
+    /* 粗体高亮 */
+    #ai-result strong {
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    /* 列表美化 */
+    #ai-result ul, #ai-result ol {
+      margin-bottom: 20px;
+      padding-left: 25px;
+    }
+
+    #ai-result li {
+      margin-bottom: 8px;
+    }
+
+    #ai-result li:hover {
+      transform: none; /* 取消上面普通 li 的 hover 动画，防止在阅读区乱动 */
+      color: inherit;
+    }
+
+    /* 行内代码与代码块美化 */
+    #ai-result code {
+      background: rgba(0, 0, 0, 0.5);
+      color: #00ffcc;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    #ai-result pre {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #ai-result pre code {
+      background: transparent;
+      color: #e0e0e0;
+      padding: 0;
+    }
+
+    /* 表格美化 */
+    #ai-result table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    #ai-result th, #ai-result td {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      text-align: left;
+    }
+
+    #ai-result th {
+      background: rgba(255, 255, 255, 0.1);
+      color: #00ffcc;
+    }
   </style>
 </head>
 
 <body>
 
-<!-- PARTICLES -->
 <canvas id="bgCanvas"></canvas>
 
-<!-- NAVBAR -->
 <div class="navbar">
   <a href="#home">Home</a>
   <a href="#focus">Focus On</a>
   <a href="#emission">Emissions</a>
   <a href="#predict">Predict</a>
 
-  <!-- SEARCH -->
   <input type="text" id="searchBox" placeholder="Search..." onkeypress="handleKey(event)">
   <button onclick="searchWord()">Find</button>
   <div id="searchMessage"></div>
 </div>
 
-<!-- HOME -->
 <div id="home">
   AI for Environmental Sustainability Track
 </div>
 
-<!-- FOCUS -->
 <div id="focus" class="section">
   <h1>What we focus on</h1>
   <ol>
@@ -207,7 +296,6 @@
   </div>
 </div>
 
-<!-- EMISSIONS -->
 <div id="emission" class="section">
   <h1>100-Year Emissions Data</h1>
 
@@ -220,7 +308,6 @@
   </div>
 </div>
 
-<!-- PREDICT -->
 <div id="predict" class="section">
   <h1>Predict & Optimize Dispatch</h1>
   <div class="content" style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
@@ -231,10 +318,9 @@
 
   <button class="fancy-btn" onclick="runAI()">Run AI Engine</button>
   
-  <div id="ai-result" style="white-space: pre-wrap; text-align: left; max-width: 800px; margin: 30px auto; font-size: 18px; line-height: 1.6;"></div>
+  <div id="ai-result"></div>
 </div>
 
-<!-- SEARCH SCRIPT -->
 <script>
 function searchWord() {
   let input = document.getElementById("searchBox").value.toLowerCase();
@@ -276,7 +362,6 @@ function handleKey(e) {
 }
 </script>
 
-<!-- PARTICLE SCRIPT -->
 <script>
 const canvas = document.getElementById("bgCanvas");
 const ctx2 = canvas.getContext("2d");
@@ -317,7 +402,6 @@ function animateParticles() {
 animateParticles();
 </script>
 
-<!-- CHART -->
 <script>
 let chartCreated = false;
 
@@ -363,7 +447,6 @@ window.addEventListener("scroll", () => {
 });
 </script>
 
-<!-- SCROLL ANIMATION -->
 <script>
 const sections = document.querySelectorAll('.section');
 
@@ -377,7 +460,6 @@ window.addEventListener('scroll', () => {
 });
 </script>
 
-<!-- AI BUTTON -->
 <script>
 async function runAI() {
   const result = document.getElementById("ai-result");
@@ -388,7 +470,7 @@ async function runAI() {
   const ghi = document.getElementById("input-ghi").value || 820;
   const co2 = document.getElementById("input-co2").value || 4500000;
 
-  result.innerHTML = "⚙️ Step 1: Running MLP Predictive AI & PuLP Optimizer...";
+  result.innerHTML = "<h3 style='text-align: center;'>⚙️ Step 1: Running MLP Predictive AI & PuLP Optimizer...</h3>";
   btn.disabled = true;
 
   try {
@@ -402,17 +484,20 @@ async function runAI() {
     const data = await response.json();
 
     if (!response.ok) {
-        result.innerHTML = `❌ Error: ${data.error}`;
+        result.innerHTML = `<h3 style='color: #ff4444; text-align: center;'>❌ Error: ${data.error}</h3>`;
         btn.disabled = false;
         return;
     }
 
+    // 使用 marked.parse() 自动将 Markdown 转换为 HTML
+    const htmlContent = marked.parse(data.report);
+
     // 显示大模型生成的结果
-    result.innerHTML = `<h3>🤖 AI Daily Energy Dispatch Report</h3>${data.report}`;
+    result.innerHTML = `<h2 style="text-align: center; margin-bottom: 20px; border-bottom: none;">🤖 AI Daily Energy Dispatch Report</h2>${htmlContent}`;
 
   } catch (error) {
     console.error("Error:", error);
-    result.innerHTML = "❌ Failed to connect to the backend. Is your Python server running?";
+    result.innerHTML = "<h3 style='color: #ff4444; text-align: center;'>❌ Failed to connect to the backend. Is your Python server running?</h3>";
   }
   btn.disabled = false;
 }

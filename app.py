@@ -84,12 +84,13 @@ Generate a structured report:
 1. Forecast Briefing: Explain weather impact.
 2. Strategy Explanation: Why this allocation?
 3. Advisory: 2 actionable tips for grid operators.
+4. DO NOT GENERATE ANYTING ANOUT DATE
 """
 
 # ==========================================
 # 3. Global Initialization (Load data and models once when starting the server)
 # ==========================================
-CSV_FILE_PATH = "./cleaned_daily_energy_data.csv" # Ensure this path is correct
+CSV_FILE_PATH = "./data/cleaned_daily_energy_data.csv" # Ensure this path is correct
 
 print("\n" + "="*50)
 print("1/2: Loading Data and Training Predictive AI...")
@@ -115,8 +116,8 @@ try:
     llm_pipeline = pipeline(
         "text-generation", 
         model=MODEL_ID, 
-        device_map="auto",             # Automatically find GPU
-        torch_dtype=torch.float16      # Use half precision to save VRAM
+        device_map="auto",
+        torch_dtype=torch.bfloat16
     )
     print(">>> All Systems GO! Server is Ready.")
 except Exception as e:
