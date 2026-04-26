@@ -1,5 +1,7 @@
 # hackaz2026
 
+### Predictive AI -> Prescriptive AI -> Generative AI
+
 Data sets gathered from:
 
 https://www.eia.gov/
