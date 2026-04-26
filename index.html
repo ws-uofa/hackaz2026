@@ -37,6 +37,10 @@
       padding: 15px;
       text-align: center;
       z-index: 1000;
+
+       /* ⭐ NEW */
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
     .navbar a {
@@ -95,7 +99,7 @@
       text-align: center;
       opacity: 0;
       transform: translateY(50px);
-      transition: 1s;
+      transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .section.show {
@@ -161,7 +165,10 @@
       cursor: pointer;
       transition: 0.3s;
     }
-
+    
+    .fancy-btn:active {
+    transform: scale(0.95);
+    }
     .fancy-btn:hover {
       transform: scale(1.1);
       box-shadow: 0 0 20px rgba(0, 114, 255, 0.8);
