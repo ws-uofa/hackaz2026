@@ -3,14 +3,14 @@
 
 # ⚡ EcoGrid AI: Intelligent Grid Dispatch & Carbon Reduction
 
-**A HackAZ 2026 Submission** *Optimizing Arizona's energy future through a trifecta of Predictive, Prescriptive, and Generative AI.*
+**A HackAZ 2026 Submission** *TRACK 01: AI for Environmental Sustainability*
 
 ---
 
-## 🎯 The Mission
-Arizona faces a unique energy challenge: intense solar potential paired with extreme temperature-driven demand. **EcoGrid AI** is an end-to-end optimization pipeline that ensures grid stability while aggressively pursuing CO₂ reduction. 
+## 🎯 Project Goal
+**EcoGrid AI** is a scalable, intelligent optimization pipeline designed to minimize carbon footprints while maintaining grid stability across diverse geographical regions. 
 
-By analyzing real-time environmental factors (Temperature and Solar Irradiance), the system calculates the most sustainable power generation mix, stays strictly under a user-defined carbon cap, and translates complex optimization data into human-readable executive briefings.
+The system moves beyond localized solutions by providing a framework that ingest real-time environmental factors—specifically **$Temperature$** and **Global Horizontal Irradiance ($GHI$)**—to calculate the most effective power generation mix for any regional demand. By mathematically maximizing renewable energy usage while adhering to strict **$CO_2$ caps**, EcoGrid AI offers a blueprint for transition-ready energy management worldwide.
 
 
 ## 🧠 The 3-Stage AI Architecture
@@ -62,7 +62,7 @@ git clone https://github.com/your-repo/ecogrid-ai.git
 cd ecogrid-ai
 
 # Install dependencies
-pip install flask flask-cors pandas numpy scikit-learn pulp torch transformers
+pip install -r requirements.txt
 ```
 
 ### 2. Data Preparation
