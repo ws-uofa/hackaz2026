@@ -222,13 +222,16 @@
 
 <!-- PREDICT -->
 <div id="predict" class="section">
-  <h1>Predict</h1>
-  <div class="content">
-    Use AI to predict environmental trends.
+  <h1>Predict & Optimize Dispatch</h1>
+  <div class="content" style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;">
+    <input type="number" id="input-temp" placeholder="Temp (°C) e.g. 28.5" style="padding: 10px; border-radius: 10px; font-size: 16px;">
+    <input type="number" id="input-ghi" placeholder="GHI e.g. 820" style="padding: 10px; border-radius: 10px; font-size: 16px;">
+    <input type="number" id="input-co2" placeholder="Target CO2 (lbs)" style="padding: 10px; border-radius: 10px; font-size: 16px;">
   </div>
 
-  <button class="fancy-btn" onclick="runAI()">Run Prediction</button>
-  <p id="ai-result"></p>
+  <button class="fancy-btn" onclick="runAI()">Run AI Engine</button>
+  
+  <div id="ai-result" style="white-space: pre-wrap; text-align: left; max-width: 800px; margin: 30px auto; font-size: 18px; line-height: 1.6;"></div>
 </div>
 
 <!-- SEARCH SCRIPT -->
@@ -376,13 +379,42 @@ window.addEventListener('scroll', () => {
 
 <!-- AI BUTTON -->
 <script>
-function runAI() {
+async function runAI() {
   const result = document.getElementById("ai-result");
-  result.innerHTML = "Analyzing data...";
+  const btn = document.querySelector(".fancy-btn");
+  
+  // 获取输入值，如果没有输入则使用默认值
+  const temp = document.getElementById("input-temp").value || 28.5;
+  const ghi = document.getElementById("input-ghi").value || 820;
+  const co2 = document.getElementById("input-co2").value || 4500000;
 
-  setTimeout(() => {
-    result.innerHTML = "Prediction: Emissions will increase by 35% by 2050 🚀";
-  }, 2000);
+  result.innerHTML = "⚙️ Step 1: Running MLP Predictive AI & PuLP Optimizer...";
+  btn.disabled = true;
+
+  try {
+    // 调用本地 Python 后端
+    const response = await fetch("http://127.0.0.1:5005/api/dispatch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ temp: temp, ghi: ghi, co2: co2 })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        result.innerHTML = `❌ Error: ${data.error}`;
+        btn.disabled = false;
+        return;
+    }
+
+    // 显示大模型生成的结果
+    result.innerHTML = `<h3>🤖 AI Daily Energy Dispatch Report</h3>${data.report}`;
+
+  } catch (error) {
+    console.error("Error:", error);
+    result.innerHTML = "❌ Failed to connect to the backend. Is your Python server running?";
+  }
+  btn.disabled = false;
 }
 </script>
 
