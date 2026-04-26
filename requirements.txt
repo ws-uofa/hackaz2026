@@ -1,0 +1,16 @@
+# Web Framework & CORS
+Flask
+Flask-Cors
+
+# Data Processing & Machine Learning
+pandas
+numpy
+scikit-learn
+
+# Mathematical Optimization
+pulp
+
+# Deep Learning & LLM
+torch
+transformers
+accelerate
