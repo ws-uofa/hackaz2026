@@ -82,7 +82,7 @@ You are an expert in grid dispatch. Write a professional "Daily Energy Dispatch 
 
 Generate a structured report:
 1. Forecast Briefing: Explain weather impact.
-2. Strategy Explanation: Why this allocation?
+2. Strategy Explanation: list out the allocation for different energy sources. Why this allocation?
 3. Advisory: 2 actionable tips for grid operators.
 4. DO NOT GENERATE ANYTING ANOUT DATE
 """
