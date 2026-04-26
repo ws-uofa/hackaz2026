@@ -6,4 +6,3 @@ https://www.eia.gov/
 https://www.epa.gov/egrid
 https://nsrdb.nlr.gov/
 
-I am Albert
