@@ -1,57 +1,46 @@
-# hackaz2026
+# EcoGrid AI: Predictive, Prescriptive, and Generative Grid Dispatch ⚡🌿
 
-### Predictive AI -> Prescriptive AI -> Generative AI
+**HackAZ 2026 Submission**
 
-Data sets gathered from:
+EcoGrid AI is an intelligent optimization pipeline designed to find the most effective way to lower CO₂ emissions in Arizona while strictly maintaining power grid stability. 
 
-https://www.eia.gov/
-https://www.epa.gov/egrid
-https://nsrdb.nlr.gov/
+By taking in real-time environmental factors (Temperature and Solar Irradiance) and a target CO₂ cap, our system calculates the exact power generation mix required to meet regional demand, maximizing renewables safely before summarizing the strategy into an actionable report for grid operators.
 
------Goals for the Project-------------------------------------------------
+## 🧠 The 3-Stage AI Architecture
 
-The goal of this project is to build an AI-driven optimization pipeline that identifies the most effective way to lower CO2 emissions in Arizona while maintaining strict power grid stability.
+Our project uniquely chains three different branches of Artificial Intelligence to solve the complex problem of energy dispatch:
 
-This system provides predictive forecasting and prescriptive recommendations, allowing users to input a target CO2 emission reduction and receive an actionable, data-backed plan. The model calculates how to adjust power generation outputs—maximizing renewable utilization based on real-time environmental factors—without compromising the energy demands of the region.
+1. **Predictive AI (Forecasting):** * **Model:** Multi-Layer Perceptron (MLPRegressor) via `scikit-learn`.
+   * **Function:** Analyzes weather data (Temperature, GHI) to predict the hourly power demand (MW), as well as the maximum available Solar and Wind generation capacity.
+2. **Prescriptive AI (Optimization):** * **Model:** Linear Programming via `PuLP`.
+   * **Function:** Takes the predicted demand and renewable caps, and calculates the exact megawatt dispatch across 5 sources (Coal, Gas, Solar, Wind, Hydro). It mathematically guarantees the cheapest configuration that *meets demand* while *staying strictly under the user-defined CO₂ limit*.
+3. **Generative AI (Reporting):** * **Model:** Meta LLaMA 3 (8B Instruct) via Hugging Face `transformers`.
+   * **Function:** Grid operators aren't always data scientists. The LLM ingests the numerical optimization results and generates a plain-language, professional "Daily Energy Dispatch and Carbon Reduction Report" with actionable advisories.
 
-----How it Works------------------------------------------------------------------
+## 📊 Data Sources
 
-Predictive model, we train the model on a data set to predict the trends in Arizona and its power usage along with CO2 emission.
+The model was trained on a custom dataset combining energy and environmental metrics for the Tucson, Arizona area:
+* **Energy Information Administration (EIA):** Hourly grid demand and power generation data.
+* **Environmental Protection Agency (EPA eGRID):** Emission factors for Coal and Natural Gas facilities.
+* **National Renewable Energy Laboratory (NREL):** Solar intensity (GHI) and weather metrics.
 
-Prescriptive, we draw planning using MLP (multi-layer perceptron) from the training data. It outputs the ideal percentage of renewable versus non-renewable generation required to hit the target safely, ensuring baseline stability with gas and coal when necessary.
+**Key Dataset Features:**
+* `Demand_MW`, `Solar_MW`, `Wind_MW`, `Hydro_MW`, `Coal_MW`, `Gas_MW`
+* `GHI` (Global Horizontal Irradiance) & `Temperature`
+* `Coal_CO2_lbs`, `Gas_CO2_lbs`, `Total_CO2`
 
-Generative AI, An LLM interprets the prescriptive model’s numeric outputs, generating a plain-language, actionable summary of the required grid changes and projected emission reductions for stakeholders.
+## 💻 Tech Stack
+* **Frontend:** HTML5, CSS3, JavaScript, Chart.js (Interactive UI with particle effects)
+* **Backend:** Python, Flask, Flask-CORS
+* **Machine Learning:** Scikit-Learn (MLP), Pandas, NumPy
+* **Operations Research:** PuLP (Linear Optimization)
+* **Generative AI:** PyTorch, Hugging Face Transformers (`meta-llama/Meta-Llama-3-8B-Instruct`)
 
---- User input --------------------------------------------------------------------
+## 🚀 How to Run Locally
 
-Idea user will input a current CO2 input and power demand. model will return the amount (% of renewable energy) That needs to be developed to minimize the emission and maximize the power. (should not completely get rid of coal and gas)
+### 1. Prerequisites
+Ensure you have Python 3.8+ installed, alongside a GPU-enabled environment if you intend to run the LLaMA 3 model locally.
 
--- Visual ------------------------------------------------------------------
-
-The output includes a visual breakdown of the projected emissions and the specific grid changes required.
-
---ABOUT DATA--
-
-The dataset combines 2026 hourly grid data from the EIA and 2023 solar intensity data from NREL for the Tucson area.
-
-Renewable data
-
-solar_MW -- power output for solar
-Hydro_MW -- power output for hydro
-Wind_MW -- power output of wind
-
-Non Renewable
-
-Coal_MW -- power output of coal
-Gas_MW -- power output of gas
-
-Others
-
-Demand_MW -- The demand of power at the hour
-GHI -- is the amount of sunshine on a solar panel
-Temperature -- the temp
-Balancing_Authority -- power district
-Date -- Day of the year
-Coal_CO2 -- CO2 of coal production
-Gas_CO2 -- CO2 of gas production
-Total_CO2 -- total CO2
+### 2. Install Dependencies
+```bash
+pip install flask flask-cors pandas numpy scikit-learn pulp torch transformers
