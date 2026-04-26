@@ -175,10 +175,9 @@ if __name__ == "__main__":
     # Example usage: Replace 'data.csv' with your actual file path.
     # Set tomorrow's expected temperature, GHI, and your firm carbon cap.
     
-    CSV_FILE_PATH = "data.csv"
+    CSV_FILE_PATH = "/home/wilsonsun/hackaz2026/cleaned_daily_energy_data.csv"
     TARGET_CO2_LBS = 4500000 
     TOMORROW_TEMP = 28.5
     TOMORROW_GHI = 820
 
-    # run_pipeline(CSV_FILE_PATH, TARGET_CO2_LBS, TOMORROW_TEMP, TOMORROW_GHI)
-    print("Code is ready. Uncomment the run_pipeline execution line to test with your actual CSV file.")
+    run_pipeline(CSV_FILE_PATH, TARGET_CO2_LBS, TOMORROW_TEMP, TOMORROW_GHI)
