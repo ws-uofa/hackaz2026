@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Sustainability Website</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* PARTICLE BACKGROUND */
+    #bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      text-align: center;
+      z-index: 1000;
+    }
+
+    .navbar a {
+      color: white;
+      margin: 20px;
+      text-decoration: none;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #00ffcc;
+    }
+
+    /* SEARCH */
+    #searchBox {
+      padding: 8px;
+      border-radius: 20px;
+      border: none;
+      margin-left: 20px;
+    }
+
+    .navbar button {
+      padding: 8px 15px;
+      border-radius: 20px;
+      border: none;
+      background: #00ffcc;
+      cursor: pointer;
+    }
+
+    #searchMessage {
+      color: white;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    /* HOME */
+    #home {
+      height: 100vh;
+      background: 
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url("background.jpg") no-repeat center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 50px;
+      color: white;
+      text-align: center;
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+    }
+
+    /* SECTIONS */
+    .section {
+      min-height: 100vh;
+      padding-top: 100px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: 1s;
+    }
+
+    .section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #focus {
+      background: #f5f5f7;
+      color: black;
+    }
+
+    #emission {
+      background: #111;
+      color: white;
+    }
+
+    #predict {
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: white;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 40px;
+    }
+
+    ol {
+      font-size: 26px;
+      line-height: 2;
+      max-width: 800px;
+      margin: auto;
+      text-align: left;
+    }
+
+    ol li {
+      transition: 0.3s;
+    }
+
+    ol li:hover {
+      transform: translateX(10px);
+      color: #007aff;
+    }
+
+    .content {
+      padding: 40px;
+      font-size: 24px;
+    }
+
+    .chart-container {
+      width: 90%;
+      height: 500px;
+      margin: auto;
+    }
+
+    .fancy-btn {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(45deg, #00c6ff, #0072ff);
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .fancy-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(0, 114, 255, 0.8);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- PARTICLES -->
+<canvas id="bgCanvas"></canvas>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a href="#home">Home</a>
+  <a href="#focus">Focus On</a>
+  <a href="#emission">Emissions</a>
+  <a href="#predict">Predict</a>
+
+  <!-- SEARCH -->
+  <input type="text" id="searchBox" placeholder="Search..." onkeypress="handleKey(event)">
+  <button onclick="searchWord()">Find</button>
+  <div id="searchMessage"></div>
+</div>
+
+<!-- HOME -->
+<div id="home">
+  AI for Environmental Sustainability Track
+</div>
+
+<!-- FOCUS -->
+<div id="focus" class="section">
+  <h1>What we focus on</h1>
+  <ol>
+    <li>Define a clear and specific environmental problem</li>
+    <li>Use AI/ML in a meaningful way</li>
+    <li>Leverage real or realistic data sources</li>
+    <li>Think about real-world deployment</li>
+    <li>Show measurable impact</li>
+  </ol>
+  <div class="content">
+    Define the environmental problem clearly.
+  </div>
+</div>
+
+<!-- EMISSIONS -->
+<div id="emission" class="section">
+  <h1>100-Year Emissions Data</h1>
+
+  <div class="chart-container">
+    <canvas id="myChart"></canvas>
+  </div>
+
+  <div class="content">
+    This chart shows emission growth over 100 years.
+  </div>
+</div>
+
+<!-- PREDICT -->
+<div id="predict" class="section">
+  <h1>Predict</h1>
+  <div class="content">
+    Use AI to predict environmental trends.
+  </div>
+
+  <button class="fancy-btn" onclick="runAI()">Run Prediction</button>
+  <p id="ai-result"></p>
+</div>
+
+<!-- SEARCH SCRIPT -->
+<script>
+function searchWord() {
+  let input = document.getElementById("searchBox").value.toLowerCase();
+  if (!input) return;
+
+  document.getElementById("searchMessage").innerText = "";
+
+  let walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  let found = false;
+
+  while (walker.nextNode()) {
+    let node = walker.currentNode;
+
+    if (node.nodeValue.toLowerCase().includes(input)) {
+      let parent = node.parentElement;
+
+      if (parent) {
+        parent.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }
+
+      found = true;
+      break;
+    }
+  }
+
+  if (!found) {
+    document.getElementById("searchMessage").innerText = "❌ Word not found";
+    alert("No match found");
+  }
+}
+
+function handleKey(e) {
+  if (e.key === "Enter") {
+    searchWord();
+  }
+}
+</script>
+
+<!-- PARTICLE SCRIPT -->
+<script>
+const canvas = document.getElementById("bgCanvas");
+const ctx2 = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    dx: Math.random() - 0.5,
+    dy: Math.random() - 0.5
+  });
+}
+
+function animateParticles() {
+  ctx2.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    ctx2.beginPath();
+    ctx2.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx2.fillStyle = "rgba(255,255,255,0.5)";
+    ctx2.fill();
+
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+  });
+
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+</script>
+
+<!-- CHART -->
+<script>
+let chartCreated = false;
+
+function createChart() {
+  if (chartCreated) return;
+  chartCreated = true;
+
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['1920','1930','1940','1950','1960','1970','1980','1990','2000','2010','2020'],
+      datasets: [{
+        label: 'CO₂ Emissions',
+        data: [10,15,20,30,45,60,95,90,100,130,150],
+        backgroundColor: 'rgba(75, 192, 192, 0.7)'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: 'white' }
+        }
+      },
+      scales: {
+        x: { ticks: { color: 'white' }},
+        y: { ticks: { color: 'white' }}
+      }
+    }
+  });
+}
+
+window.addEventListener("scroll", () => {
+  const emission = document.getElementById("emission");
+  const top = emission.getBoundingClientRect().top;
+
+  if (top < window.innerHeight - 100) {
+    createChart();
+  }
+});
+</script>
+
+<!-- SCROLL ANIMATION -->
+<script>
+const sections = document.querySelectorAll('.section');
+
+window.addEventListener('scroll', () => {
+  sections.forEach(section => {
+    const top = section.getBoundingClientRect().top;
+    if (top < window.innerHeight - 100) {
+      section.classList.add('show');
+    }
+  });
+});
+</script>
+
+<!-- AI BUTTON -->
+<script>
+function runAI() {
+  const result = document.getElementById("ai-result");
+  result.innerHTML = "Analyzing data...";
+
+  setTimeout(() => {
+    result.innerHTML = "Prediction: Emissions will increase by 35% by 2050 🚀";
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
