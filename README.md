@@ -10,28 +10,25 @@ https://nsrdb.nlr.gov/
 
 -----Goals for the Project-------------------------------------------------
 
-The goal of this project is to build a Linear Regression ML model that finds the best way to lower CO2 emissions in Arizona while keeping our power output stable.
+The goal of this project is to build an AI-driven optimization pipeline that identifies the most effective way to lower CO2 emissions in Arizona while maintaining strict power grid stability.
 
-wanted to build a tool where a user can input a CO2 target and a Power Demand, and the model will return the specific % of Renewable Energy that needs to be developed to hit those goals. The model is designed to be realistic—it finds the minimum emissions without completely killing off coal and gas, which the grid still needs for reliability.
-
+This system provides predictive forecasting and prescriptive recommendations, allowing users to input a target CO2 emission reduction and receive an actionable, data-backed plan. The model calculates how to adjust power generation outputs—maximizing renewable utilization based on real-time environmental factors—without compromising the energy demands of the region.
 
 ----How it Works------------------------------------------------------------------
 
-Predictive Modeling: A Linear Regression model maps the complex relationships between power demand, weather constraints (GHI and Temperature), and the resulting carbon output.
+Predictive model, we train the model on a data set to predict the trends in Arizona and its power usage along with CO2 emission.
 
-Prescriptive Optimization: The system calculates the exact percentage of renewable energy development required to hit specific emission targets while maximizing power reliability.
+Prescriptive, we draw planning using MLP (multi-layer perceptron) from the training data. It outputs the ideal percentage of renewable versus non-renewable generation required to hit the target safely, ensuring baseline stability with gas and coal when necessary.
+
+Generative AI, An LLM interprets the prescriptive model’s numeric outputs, generating a plain-language, actionable summary of the required grid changes and projected emission reductions for stakeholders.
 
 --- User input --------------------------------------------------------------------
-
-Idea user will input a current CO2 input and power demand. model will return the amount(% of renewable energy) That needs to be developed to minizize the emission and maximun the power. (should not completely get rid of coal and gas)
-
+Idea user will input a current CO2 input and power demand. model will return the amount (% of renewable energy) That needs to be developed to minimize the emission and maximize the power. (should not completely get rid of coal and gas)
 
 -- Visual ------------------------------------------------------------------
+The output includes a visual breakdown of the projected emissions and the specific grid changes required.
 
-The output includes a visual breakdown of the projected emissions and the specific grid changes required. 
-
---ABOUT DATA----------------------------------------------------------------
-
+--ABOUT DATA--
 The dataset combines 2026 hourly grid data from the EIA and 2023 solar intensity data from NREL for the Tucson area.
 
 Renewable data
@@ -41,14 +38,14 @@ Wind_MW -- power output of wind
 
 Non Renewable
 Coal_MW -- power output of coal
-Gas_Mw -- power output of gas
+Gas_MW -- power output of gas
 
-Others 
+Others
 Demand_MW -- The demand of power at the hour
-GHI -- is the amount of sunshine on a solar pannel
+GHI -- is the amount of sunshine on a solar panel
 Temperature -- the temp
 Balancing_Authority -- power district
-Date -- Day of the year 
+Date -- Day of the year
 Coal_CO2 -- CO2 of coal production
 Gas_CO2 -- CO2 of gas production
 Total_CO2 -- total CO2
