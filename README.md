@@ -21,6 +21,7 @@ ML Model: We use Linear Regression to map the relationship between power demand,
 Optimization: The model acts as a "Reverse Estimator"—you give it the CO2 limit you want, and it tells you what percentage of the grid needs to be renewable to make that happen.
 
 --- User input --------------------------------------------------------------------
+
 Idea user will input a current CO2 input and power demand. model will return the amount(% of renewable energy) That needs to be developed to minizize the emission and maximun the power. (should not completely get rid of coal and gas)
 
 
