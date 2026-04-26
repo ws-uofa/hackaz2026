@@ -90,6 +90,8 @@
       color: white;
       text-align: center;
       text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+
+       position: relative;
     }
 
     /* SECTIONS */
@@ -256,6 +258,32 @@
       border-collapse: collapse;
       margin-bottom: 20px;
     }
+     .earth {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: url("background.jpg") no-repeat center/cover;
+      border-radius: 50%;
+      box-shadow: 0 0 50px rgba(0,255,204,0.7);
+
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      animation: floatEarth 6s ease-in-out infinite;
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes floatEarth {
+      0% { transform: translate(-50%, -50%) translateY(0px); }
+      50% { transform: translate(-50%, -50%) translateY(-20px); }
+      100% { transform: translate(-50%, -50%) translateY(0px); }
+    }
+
 
     #ai-result th, #ai-result td {
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -286,7 +314,14 @@
 </div>
 
 <div id="home">
+<<<<<<< HEAD
   EcoGrid AI:<br>Intelligent Grid Dispatch & Carbon Reduction
+=======
+  <div class="earth"></div>
+  <div class="hero-text">
+    AI for Environmental Sustainability Track
+  </div>
+>>>>>>> 58546a6 (graph)
 </div>
 
 <div id="focus" class="section">
